@@ -1,0 +1,2 @@
+# DotsView
+Индикаторы для ViewPager
