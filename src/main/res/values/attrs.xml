@@ -1,0 +1,13 @@
+<resources>
+    <declare-styleable name="DotsView">
+        <attr name="padding" format="dimension"/>
+        <attr name="size" format="dimension"/>
+        <attr name="count" format="integer"/>
+        <attr name="selector" format="reference"/>
+
+        <attr name="colorDefault" format="color"/>
+        <attr name="colorSelected" format="color"/>
+
+        <attr name="viewPager" format="reference"/>
+    </declare-styleable>
+</resources>
