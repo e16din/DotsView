@@ -15,7 +15,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.github.e16din:DotsView:0.1.0'
+    compile 'com.github.e16din:DotsView:0.1.1'
 }
 ```
 
@@ -33,6 +33,17 @@ dependencies {
     app:count="4"
     app:padding="10dp"
     app:selector="@drawable/selector_pager_indicator"
+    app:size="8dp"
+    app:viewPager="@+id/vPager"/>
+
+<com.e16din.dotsview.DotsView
+    android:id="@+id/vDots"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:count="4"
+    app:padding="10dp"
+    app:colorChecked="#808080"
+    app:colorDefault="#33808080"
     app:size="8dp"
     app:viewPager="@+id/vPager"/>
 ```

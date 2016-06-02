@@ -160,7 +160,6 @@ public class DotsView extends LinearLayout {
     }
 
     public void bindViewPager(ViewPager vPager) {
-        vPager.clearOnPageChangeListeners();
         vPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
