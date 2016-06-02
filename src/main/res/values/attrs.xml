@@ -6,7 +6,10 @@
         <attr name="selector" format="reference"/>
 
         <attr name="colorDefault" format="color"/>
-        <attr name="colorSelected" format="color"/>
+        <attr name="colorChecked" format="color"/>
+
+        <attr name="exitFadeDuration" format="integer"/>
+        <attr name="enterFadeDuration" format="integer"/>
 
         <attr name="viewPager" format="reference"/>
     </declare-styleable>
