@@ -3,7 +3,7 @@
 
 [![Release](https://jitpack.io/v/e16din/DotsView.svg)](https://jitpack.io/#e16din/DotsView)
 
-[![DotsView example video:](https://www.youtube.com/watch?v=CujRNenitlw/0.jpg)](https://www.youtube.com/watch?v=CujRNenitlw)
+[![DotsView demo:](https://img.youtube.com/vi/CujRNenitlw/0.jpg)](https://www.youtube.com/watch?v=CujRNenitlw)
 
 ## Подключение библиотеки (Gradle)
 
