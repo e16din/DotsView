@@ -3,6 +3,7 @@ package com.e16din.dotsview;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.Button;
@@ -19,11 +21,43 @@ import android.widget.LinearLayout;
 public class DotsView extends LinearLayout {
 
     public static final int DEFAULT_STYLE_ATTR = android.R.attr.buttonBarStyle;
+    public static final int WRONG_VALUE = -1;
 
-    private int mViewPagerId;
+
+    private int mViewPagerId = 0;
 
     private int mExitFadeDuration = 0;
     private int mEnterFadeDuration = 0;
+
+    private final ViewPager.OnPageChangeListener mOnPageChangeListener =
+            new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    resetDots();
+
+                    updateDot(position, true);
+                }
+
+                @Override
+                public void onPageScrolled(int position, float positionOffset,
+                                           int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            };
+
+    // - attrs
+    private int mSelector;
+    private int mSize;
+    private int mPadding;
+    @ColorInt
+    private int mColorDefault;
+    @ColorInt
+    private int mColorChecked;
+
+
 
     public DotsView(Context context) {
         super(context, null, DEFAULT_STYLE_ATTR);
@@ -65,26 +99,32 @@ public class DotsView extends LinearLayout {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.DotsView,
                 DEFAULT_STYLE_ATTR, defStyleRes);
 
-        int count = 1;
-        int padding = 0;
-        int size = LayoutParams.WRAP_CONTENT;
+        mPadding = 0;
+        mSize = LayoutParams.WRAP_CONTENT;
 
-        int selector = 0;
+        mSelector = 0;
 
-        @ColorInt
-        int colorDefault = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
-        @ColorInt
-        int colorChecked = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+        mColorDefault = WRONG_VALUE;
+        mColorChecked = WRONG_VALUE;
 
         try {
-            count = a.getInteger(R.styleable.DotsView_count, count);
-            padding = a.getLayoutDimension(R.styleable.DotsView_padding, padding);
-            size = a.getLayoutDimension(R.styleable.DotsView_size, size);
+            mPadding = a.getLayoutDimension(R.styleable.DotsView_padding, mPadding);
+            mSize = a.getLayoutDimension(R.styleable.DotsView_size, mSize);
 
-            selector = a.getResourceId(R.styleable.DotsView_selector, selector);
+            mSelector = a.getResourceId(R.styleable.DotsView_selector, mSelector);
 
-            colorDefault = a.getColor(R.styleable.DotsView_colorDefault, colorDefault);
-            colorChecked = a.getColor(R.styleable.DotsView_colorChecked, colorChecked);
+            mColorDefault = a.getColor(R.styleable.DotsView_colorDefault, WRONG_VALUE);
+            mColorChecked = a.getColor(R.styleable.DotsView_colorChecked, WRONG_VALUE);
+
+            if (mColorDefault == WRONG_VALUE) {
+                if (!TextUtils.isEmpty(a.getString(R.styleable.DotsView_colorDefault))) {
+                    mColorDefault = Color.parseColor(a.getString(R.styleable.DotsView_colorDefault));
+                    mColorChecked = Color.parseColor(a.getString(R.styleable.DotsView_colorChecked));
+                } else {
+                    mColorDefault = ContextCompat.getColor(getContext(), R.color.colorDefault);
+                    mColorChecked = ContextCompat.getColor(getContext(), R.color.colorChecked);
+                }
+            }
 
             mExitFadeDuration = a.getInteger(R.styleable.DotsView_exitFadeDuration,
                     mExitFadeDuration);
@@ -98,11 +138,22 @@ public class DotsView extends LinearLayout {
             a.recycle();
         }
 
+
+    }
+
+    private void createDots(int count,
+                            int padding,
+                            int size,
+                            int selector,
+                            int colorDefault,
+                            int colorChecked) {
+        removeAllViews();
+
         for (int i = 0; i < count; i++) {
             Button btnDot = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
 
             LayoutParams params = new LayoutParams(size, size);
-            if (i < count) {
+            if (i < count - 1) {
                 params.rightMargin = padding;
             }
             btnDot.setLayoutParams(params);
@@ -149,35 +200,32 @@ public class DotsView extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        bindViewPager(mViewPagerId);
-    }
-
-    public void bindViewPager(int viewPagerId) {
-        if (viewPagerId != 0) {
-            ViewPager vPager = (ViewPager) getRootView().findViewById(viewPagerId);
-            bindViewPager(vPager);
+        if (mViewPagerId != 0) {
+            bindViewPager(mViewPagerId);
         }
     }
 
+    /**
+     * Bind dots to the view pager
+     * @param viewPagerId  id of your ViewPager
+     */
+    public void bindViewPager(int viewPagerId) {
+        ViewPager vPager = (ViewPager) getRootView().findViewById(viewPagerId);
+        bindViewPager(vPager);
+    }
+
+    /**
+     * Bind dots to the view pager
+     * @param vPager  your ViewPager
+     */
     public void bindViewPager(ViewPager vPager) {
-        vPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                resetDots();
+        createDots(vPager.getAdapter().getCount(),
+                mPadding, mSize, mSelector, mColorDefault, mColorChecked);
 
-                updateDot(position, true);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        vPager.removeOnPageChangeListener(mOnPageChangeListener);
+        vPager.addOnPageChangeListener(mOnPageChangeListener);
         updateDot(0, true);
+
     }
 
     private void updateDot(int position, boolean selected) {

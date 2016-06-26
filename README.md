@@ -1,6 +1,10 @@
 # DotsView
 Индикаторы для ViewPager
 
+[![Release](https://jitpack.io/v/e16din/DotsView.svg)](https://jitpack.io/#e16din/DotsView)
+
+[![DotsView example video:](https://www.youtube.com/watch?v=CujRNenitlw/0.jpg)](https://www.youtube.com/watch?v=CujRNenitlw)
+
 ## Подключение библиотеки (Gradle)
 
 ```groovy
@@ -15,7 +19,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.github.e16din:DotsView:0.1.1'
+    compile 'com.github.e16din:DotsView:0.+'
 }
 ```
 
@@ -25,25 +29,23 @@ dependencies {
             android:id="@+id/vPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
+<!-- bind dots -->
 <com.e16din.dotsview.DotsView
     android:id="@+id/vDots"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:count="4"
     app:padding="10dp"
     app:selector="@drawable/selector_pager_indicator"
     app:size="8dp"
     app:viewPager="@+id/vPager"/>
-
+<!-- or -->
 <com.e16din.dotsview.DotsView
     android:id="@+id/vDots"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:count="4"
     app:padding="10dp"
-    app:colorChecked="#808080"
-    app:colorDefault="#33808080"
+    app:colorChecked="@android:color/white"
+    app:colorDefault="#808080"
     app:size="8dp"
     app:viewPager="@+id/vPager"/>
 ```

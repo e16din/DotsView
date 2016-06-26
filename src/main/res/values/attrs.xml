@@ -2,11 +2,10 @@
     <declare-styleable name="DotsView">
         <attr name="padding" format="dimension"/>
         <attr name="size" format="dimension"/>
-        <attr name="count" format="integer"/>
         <attr name="selector" format="reference"/>
 
-        <attr name="colorDefault" format="color"/>
-        <attr name="colorChecked" format="color"/>
+        <attr name="colorDefault" format="color|string"/>
+        <attr name="colorChecked" format="color|string"/>
 
         <attr name="exitFadeDuration" format="integer"/>
         <attr name="enterFadeDuration" format="integer"/>
