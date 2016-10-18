@@ -58,7 +58,6 @@ public class DotsView extends LinearLayout {
     private int mColorChecked;
 
 
-
     public DotsView(Context context) {
         super(context, null, DEFAULT_STYLE_ATTR);
         init(null);
@@ -207,16 +206,18 @@ public class DotsView extends LinearLayout {
 
     /**
      * Bind dots to the view pager
-     * @param viewPagerId  id of your ViewPager
+     *
+     * @param viewPagerId id of your ViewPager
      */
     public void bindViewPager(int viewPagerId) {
-        ViewPager vPager = (ViewPager) getRootView().findViewById(viewPagerId);
+        ViewPager vPager = (ViewPager) Utils.scanForActivity(getContext()).findViewById(viewPagerId);
         bindViewPager(vPager);
     }
 
     /**
      * Bind dots to the view pager
-     * @param vPager  your ViewPager
+     *
+     * @param vPager your ViewPager
      */
     public void bindViewPager(ViewPager vPager) {
         createDots(vPager.getAdapter().getCount(),

@@ -24,7 +24,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.github.e16din:DotsView:0.+'
+    compile 'com.github.e16din:DotsView:0.1.3'
 }
 ```
 
